@@ -4,7 +4,9 @@ from __future__ import division
 from __future__ import print_function
 
 import numpy as np
-from skimage.measure import compare_ssim
+
+from skimage.metrics import structural_similarity as compare_ssim
+
 import torch
 
 from training.lpips import dist_model
@@ -12,7 +14,7 @@ from training.lpips import dist_model
 
 class PerceptualLoss(torch.nn.Module):
     def __init__(self, model='net-lin', net='alex', colorspace='rgb', spatial=False,
-                 use_gpu=False, gpu_ids=[0], masked_lpips_loss=False): # VGG using our perceptually-learned weights (LPIPS metric)
+                 use_gpu=False, gpu_ids=[0], masked_lpips_loss=False,is_train=False): # VGG using our perceptually-learned weights (LPIPS metric)
     # def __init__(self, model='net', net='vgg', use_gpu=True): # "default" way of using VGG as a perceptual loss
         super(PerceptualLoss, self).__init__()
         print('Setting up Perceptual loss...')
@@ -22,7 +24,7 @@ class PerceptualLoss(torch.nn.Module):
         self.model = dist_model.DistModel()
         self.masked_lpips_loss = masked_lpips_loss
         self.model.initialize(model=model, net=net, use_gpu=use_gpu, colorspace=colorspace, spatial=self.spatial,
-                              gpu_ids=gpu_ids,masked_lpips_loss=masked_lpips_loss)
+                              gpu_ids=gpu_ids,masked_lpips_loss=masked_lpips_loss,is_train=is_train)
         print('...[%s] initialized'%self.model.name())
         print('...Done')
 

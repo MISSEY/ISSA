@@ -3,16 +3,16 @@ encoder_training:
   aug: ada
   ada_interval: 4
   ada_kimg: 250
-  batch: 32
-  batch_val: 32
+  batch: 2
+  batch_val: 2
   beta_first: 0.0
   beta_sec: 0.99
   blur_enable: true
   cond: false
   cooldown_w: true
   cropping_dataset: center
-  data: /home/datasets/gan_encoder_training/cityscapes # path to real data
-  data_fake: /home/code_repo/fake_cityscapes_random_50k_res512 # path to GAN generated fake data
+  data: /mnt/d/projects/restyle-encoder/PhenoBench-v100/PhenoBench/train/images # path to real data
+  data_fake:  # path to GAN generated fake data
   dataset_name: mix_bdd100k # self-defined dataset name
   dlr: 1.0e-05
   dry_run: false
@@ -24,7 +24,7 @@ encoder_training:
   generator: stylegan2
   label_dim: 0
   gpus: 1
-  img_ratio: '2'
+  img_ratio: '1'
   input_mode: random
   image_snapshot_ticks: 1
   kimg: 12000
@@ -56,8 +56,8 @@ encoder_training:
   noise_predict_until: 128
   num_masked_layer: 2
   optimizer: ranger
-  outdir: /home/code_repo/training_outputs_temp # output dir
-  pkl_dir: /home/code_repo/pretrained/pretrained_model_stylegan/stylegan2-random-cityscapes-train-z512-res512.pkl # path to pretrained GAN model
+  outdir:  /mnt/d/projects/ISSA/output # output dir
+  pkl_dir: /mnt/d/projects/hands-off-dataset/pretrained_models/style_gan_models/exp2/network-snapshot-015974.pkl # path to pretrained GAN models
   reconstruction_loss: L2
   resolution: 512
   resume: null
@@ -67,12 +67,13 @@ encoder_training:
   style_layers_coarse: 5
   style_layers_fine: 7
   style_layers_medium: 6
-  subbatch: 16
+  subbatch: 1
   target: 0.12
   tick: 4
   use_same_mask: false
-  use_w: true
+  use_w: false
   val_size: 300
   w_out_dim: 512
-  workers: 3
-  D_reg_interval: 16 
+  workers: 0
+  D_reg_interval: 16
+  is_train: True

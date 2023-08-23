@@ -11,7 +11,7 @@ config = edict()
 with open('./configs/mne_training.yml', 'r') as stream:
     opts = yaml.safe_load(stream)['encoder_training']
 opts = edict(opts)
-
+config.is_train = opts.is_train
 
 assert opts.noise_predict_from <= opts.noise_predict_until
 log2_start = int(math.log2(opts.noise_predict_from))
@@ -62,7 +62,7 @@ config.G_kwargs.channel_base = 32768
 config.G_kwargs.channel_max = 512
 config.G_kwargs.mapping_kwargs.num_layers = 8
 config.G_pkl = opts.pkl_dir
-config.G_kwargs.input_mode = opts.input_mode  # 'const' or 'random'
+# config.G_kwargs.input_mode = opts.input_mode  # 'const' or 'random'
 config.cooldown_w = opts.cooldown_w
 config.label_dim = opts.label_dim
 

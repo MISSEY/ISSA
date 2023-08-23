@@ -19,6 +19,7 @@ from torch_utils.ops import grid_sample_gradfix
 from training import lpips
 import math
 from importlib import import_module
+from legacy import load_network_pkl
 
 # ToDo: To be deleted!
 #from torch_utils import training_stats
@@ -200,7 +201,7 @@ def main(rank):
     # Load generator
     #########################
     common_kwargs = dict(c_dim=config.label_dim, img_resolution=training_set.resolution,
-                         img_channels=training_set.num_channels, img_aspect_ratio=training_set.aspect_ratio)
+                         img_channels=training_set.num_channels)
     generator = create_class_by_name(**config.G_kwargs, **common_kwargs).train().requires_grad_(False).to(
         device)
     #dnnlib.util.construct_class_by_name
@@ -208,7 +209,7 @@ def main(rank):
     if rank == 0:
         print('Loading networks from "%s"...' % config.G_pkl)
         with open(config.G_pkl, "rb") as f:
-            resume_data = misc.load_network_pkl(f)
+            resume_data = load_network_pkl(f)
         for name, module in [('G_ema', generator)]:
             misc.copy_params_and_buffers(resume_data[name], module, require_all=False)
 
